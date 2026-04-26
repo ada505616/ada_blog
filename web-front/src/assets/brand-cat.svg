@@ -1,0 +1,32 @@
+<svg width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="84" height="84" rx="16" fill="url(#bg)"/>
+  <g shape-rendering="crispEdges">
+    <rect x="24" y="12" width="36" height="6" fill="#101935"/>
+    <rect x="30" y="6" width="24" height="10" fill="#1A2250"/>
+    <rect x="18" y="18" width="48" height="42" rx="8" fill="#F4A340"/>
+    <path d="M22 22L30 10L36 24H22Z" fill="#F4A340"/>
+    <path d="M62 22L54 10L48 24H62Z" fill="#F4A340"/>
+    <path d="M26 22L30 15L33 23H26Z" fill="#E8B6C4"/>
+    <path d="M58 22L54 15L51 23H58Z" fill="#E8B6C4"/>
+    <rect x="31" y="33" width="4" height="9" rx="1" fill="#101010"/>
+    <rect x="49" y="33" width="4" height="9" rx="1" fill="#101010"/>
+    <rect x="39" y="44" width="6" height="4" rx="1" fill="#101010"/>
+    <path d="M42 48V56" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+    <path d="M42 56C40.4 60 36.2 61 33 58.5" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+    <path d="M42 56C43.6 60 47.8 61 51 58.5" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+    <rect x="35" y="66" width="14" height="10" rx="5" fill="#FFD798"/>
+    <path d="M24 60C19 64 18 69 18 76V84H66V76C66 69 65 64 60 60" fill="#F4A340"/>
+    <path d="M18 84V70" stroke="#101010" stroke-width="3"/>
+    <path d="M66 84V70" stroke="#101010" stroke-width="3"/>
+    <path d="M21 46H10" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+    <path d="M21 52H8" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+    <path d="M63 46H74" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+    <path d="M63 52H76" stroke="#101010" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <defs>
+    <linearGradient id="bg" x1="10" y1="6" x2="74" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F73FF"/>
+      <stop offset="1" stop-color="#2D56F2"/>
+    </linearGradient>
+  </defs>
+</svg>
