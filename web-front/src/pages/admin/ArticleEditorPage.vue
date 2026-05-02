@@ -130,14 +130,16 @@ function handleCoverUploaded(file) {
           <p class="eyebrow">文章编辑</p>
           <h2 class="section-title">{{ isEdit ? "编辑文章" : "新建文章" }}</h2>
         </div>
-        <button class="button button-primary" type="button" :disabled="loading" @click="saveArticle">
-          {{ loading ? "保存中..." : "保存文章" }}
-        </button>
       </div>
 
       <div class="editor-grid stack">
         <div class="stack editor-panel">
           <EditorJsEditor ref="editorRef" :model-value="editorData" />
+          <div class="editor-actions">
+            <button class="button button-primary" type="button" :disabled="loading" @click="saveArticle">
+              {{ loading ? "保存中..." : "保存文章" }}
+            </button>
+          </div>
           <p v-if="feedback" class="muted">{{ feedback }}</p>
         </div>
 
@@ -226,6 +228,11 @@ function handleCoverUploaded(file) {
 
 .editor-panel {
   min-width: 0;
+}
+
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .checkbox-field {

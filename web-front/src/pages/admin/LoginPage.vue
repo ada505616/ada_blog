@@ -8,8 +8,8 @@ const router = useRouter();
 const authStore = useAuthStore();
 const errorMessage = ref("");
 const form = reactive({
-  username: "admin",
-  password: "admin123456"
+  username: "",
+  password: ""
 });
 
 async function submit() {
@@ -29,7 +29,7 @@ async function submit() {
     <div class="login-panel card">
       <p class="eyebrow">后台管理</p>
       <h1 class="section-title">登录 Ada Blog</h1>
-      <p class="muted">默认账号密码已按后端初始化值预填，方便你本地先跑通联调。</p>
+      <p class="muted">请输入你在后端环境变量中配置的管理员账号和密码。</p>
       <div class="form-grid">
         <div class="field">
           <label>用户名</label>

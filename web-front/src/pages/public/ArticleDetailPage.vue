@@ -93,7 +93,7 @@ async function submitComment() {
       replyToCommentId: replyTarget.value?.id || null
     };
     const response = await createComment(article.value.id, payload);
-    feedback.value = response.message;
+    addPendingComment(response.item || payload);
     commentForm.value = {
       nickname: "",
       email: "",
@@ -104,6 +104,43 @@ async function submitComment() {
   } catch (error) {
     feedback.value = error.message || "提交失败";
   }
+}
+
+function addPendingComment(comment) {
+  const pendingComment = {
+    ...comment,
+    id: comment.id || `pending-${Date.now()}`,
+    status: "pending",
+    createdAt: comment.createdAt || new Date().toISOString(),
+    replies: []
+  };
+
+  if (!pendingComment.parentId) {
+    comments.value = [...comments.value, pendingComment];
+    return;
+  }
+
+  comments.value = appendReply(comments.value, pendingComment.parentId, pendingComment);
+}
+
+function appendReply(items, parentId, reply) {
+  return items.map((item) => {
+    if (item.id === parentId) {
+      return {
+        ...item,
+        replies: [...(item.replies || []), reply]
+      };
+    }
+
+    if (item.replies?.length) {
+      return {
+        ...item,
+        replies: appendReply(item.replies, parentId, reply)
+      };
+    }
+
+    return item;
+  });
 }
 </script>
 
@@ -266,6 +303,12 @@ async function submitComment() {
 .article-content :deep(figure) {
   margin-block: 1.6em;
   margin-inline: 0;
+}
+
+.article-content :deep(figure[class^="image-width-"]) {
+  width: var(--image-width, 100%);
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 .article-content :deep(figure img),
@@ -452,6 +495,10 @@ async function submitComment() {
 
   .article-content :deep(table) {
     min-width: 480px;
+  }
+
+  .article-content :deep(figure[class^="image-width-"]) {
+    width: 100%;
   }
 
   .comment-grid {

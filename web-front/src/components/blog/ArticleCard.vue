@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { RouterLink } from "vue-router";
 import { formatDate, makeExcerpt } from "../../utils/format";
 
@@ -14,19 +14,31 @@ const props = defineProps({
   }
 });
 
-const coverStyle = computed(() =>
-  props.article.coverImageUrl
-    ? { backgroundImage: `linear-gradient(180deg, rgba(23, 19, 16, 0.08), rgba(23, 19, 16, 0.42)), url(${props.article.coverImageUrl})` }
-    : null
-);
-
+const coverLoaded = ref(false);
 const summaryText = computed(() => props.article.summary || makeExcerpt(props.article.contentText, props.horizontal ? 88 : 110));
 const visibleTags = computed(() => (props.horizontal ? (props.article.tags || []).slice(0, 2) : props.article.tags || []));
+
+watch(
+  () => props.article.coverImageUrl,
+  () => {
+    coverLoaded.value = false;
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
   <article class="card article-card" :class="{ horizontal }">
-    <div class="cover" :style="coverStyle">
+    <div class="cover" :class="{ 'has-cover': !!article.coverImageUrl, 'cover-loaded': coverLoaded }">
+      <img
+        v-if="article.coverImageUrl"
+        class="cover-image"
+        :src="article.coverImageUrl"
+        :alt="article.title"
+        loading="lazy"
+        decoding="async"
+        @load="coverLoaded = true"
+      />
       <span class="cover-badge">{{ article.category?.name || "未分类" }}</span>
     </div>
     <div class="body">
@@ -72,6 +84,7 @@ const visibleTags = computed(() => (props.horizontal ? (props.article.tags || []
 }
 
 .cover {
+  position: relative;
   min-height: 180px;
   padding: 18px;
   background:
@@ -81,13 +94,61 @@ const visibleTags = computed(() => (props.horizontal ? (props.article.tags || []
   background-position: center;
 }
 
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(23, 19, 16, 0.08), rgba(23, 19, 16, 0.42));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cover.has-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0));
+  transform: translateX(-100%);
+  animation: cover-loading 1.2s ease-in-out infinite;
+}
+
+.cover.cover-loaded::before {
+  display: none;
+}
+
+.cover.cover-loaded::after {
+  opacity: 1;
+}
+
+.cover-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.cover.cover-loaded .cover-image {
+  opacity: 1;
+}
+
 .cover-badge {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   padding: 6px 10px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.96);
   color: var(--primary);
   font-size: 13px;
+}
+
+@keyframes cover-loading {
+  to {
+    transform: translateX(100%);
+  }
 }
 
 .body {

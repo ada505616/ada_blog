@@ -2,6 +2,10 @@
 
 Node.js + Express + SQLite backend for a personal blog admin system.
 
+## Project Guide
+
+For module responsibilities, route relationships, database relationships, and common change entry points, see [PROJECT_GUIDE.md](./PROJECT_GUIDE.md).
+
 ## Stack
 
 - Node.js
@@ -33,10 +37,13 @@ npm run dev
 
 The server will initialize the SQLite schema automatically and seed a default admin account on first boot.
 
-Default admin credentials come from `.env`:
+Before first boot, edit `.env` and set your own admin credentials:
 
-- username: `admin`
-- password: `admin123456`
+- `JWT_ACCESS_SECRET`
+- `ADMIN_DEFAULT_USERNAME`
+- `ADMIN_DEFAULT_PASSWORD`
+
+Do not commit real credentials. `.env.example` only contains placeholders.
 
 ## API Notes
 

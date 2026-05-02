@@ -23,8 +23,8 @@ VITE_API_BASE_URL=http://localhost:3000
 
 ```json
 {
-  "username": "admin",
-  "password": "admin123456"
+  "username": "<your-admin-username>",
+  "password": "<your-admin-password>"
 }
 ```
 
@@ -36,8 +36,8 @@ VITE_API_BASE_URL=http://localhost:3000
   "refreshToken": "refresh-token",
   "admin": {
     "id": 1,
-    "username": "admin",
-    "nickname": "Administrator",
+    "username": "<your-admin-username>",
+    "nickname": "<your-admin-nickname>",
     "email": null,
     "avatarUrl": null,
     "lastLoginAt": null

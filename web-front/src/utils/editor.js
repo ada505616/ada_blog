@@ -10,6 +10,11 @@ function renderTableCell(cell, tag) {
   return `<${tag}>${cell || ""}</${tag}>`;
 }
 
+function normalizeImageWidthPercent(value) {
+  const width = Number(value);
+  return [50, 80, 100].includes(width) ? width : 100;
+}
+
 export function editorDataToHtml(data) {
   const blocks = data?.blocks || [];
 
@@ -35,7 +40,8 @@ export function editorDataToHtml(data) {
       if (block.type === "image") {
         const url = block.data?.file?.url || "";
         const caption = block.data?.caption || "";
-        return `<figure><img src="${escapeHtml(url)}" alt="${escapeHtml(caption)}" />${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
+        const widthPercent = normalizeImageWidthPercent(block.data?.widthPercent);
+        return `<figure class="image-width-${widthPercent}" style="--image-width: ${widthPercent}%"><img src="${escapeHtml(url)}" alt="${escapeHtml(caption)}" loading="lazy" decoding="async" />${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
       }
 
       if (block.type === "code") {

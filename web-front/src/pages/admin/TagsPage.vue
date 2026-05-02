@@ -10,6 +10,10 @@ const form = reactive({
   color: "#1f7a64"
 });
 
+function normalizeColor(value) {
+  return /^#[0-9a-fA-F]{6}$/.test(value || "") ? value : "#1f7a64";
+}
+
 onMounted(loadData);
 
 async function loadData() {
@@ -24,7 +28,7 @@ function resetForm() {
 
 function startEdit(item) {
   editingId.value = item.id;
-  Object.assign(form, item);
+  Object.assign(form, { ...item, color: normalizeColor(item.color) });
 }
 
 async function submit() {
@@ -56,7 +60,14 @@ async function removeItem(id) {
       <div class="form-grid">
         <div class="field"><label>名称</label><input v-model="form.name" class="input" /></div>
         <div class="field"><label>Slug</label><input v-model="form.slug" class="input" /></div>
-        <div class="field"><label>颜色</label><input v-model="form.color" class="input" /></div>
+        <div class="field">
+          <label>颜色</label>
+          <div class="color-picker-row">
+            <input v-model="form.color" class="color-picker" type="color" />
+            <span class="color-preview" :style="{ background: form.color }" />
+            <code class="color-code">{{ form.color }}</code>
+          </div>
+        </div>
         <div class="toolbar">
           <button class="button button-primary" type="button" @click="submit">{{ editingId ? "保存" : "创建" }}</button>
           <button class="button button-secondary" type="button" @click="resetForm">重置</button>
@@ -98,5 +109,40 @@ async function removeItem(id) {
   width: 18px;
   height: 18px;
   border-radius: 6px;
+  border: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.color-picker {
+  width: 52px;
+  height: 42px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.color-preview {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.color-code {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafb;
+  color: var(--text-soft);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 </style>

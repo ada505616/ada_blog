@@ -91,9 +91,6 @@ function isActive(item) {
   padding: 16px 18px;
   display: grid;
   gap: 14px;
-  position: sticky;
-  top: 14px;
-  z-index: 20;
 }
 
 .topbar-main {

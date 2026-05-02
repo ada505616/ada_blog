@@ -2,6 +2,10 @@
 
 Vue 3 frontend for the blog public site and admin console.
 
+## Project Guide
+
+For module responsibilities, routing, API calling relationships, and common change entry points, see [PROJECT_GUIDE.md](./PROJECT_GUIDE.md).
+
 ## Start
 
 ```bash

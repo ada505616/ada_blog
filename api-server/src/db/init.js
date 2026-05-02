@@ -152,12 +152,12 @@ async function initializeDatabase() {
   await run("CREATE INDEX IF NOT EXISTS idx_admin_session_admin_user_id ON admin_session(admin_user_id)");
   await run("CREATE INDEX IF NOT EXISTS idx_admin_session_expired_at ON admin_session(expired_at)");
 
-  const admin = await get(
-    "SELECT id FROM admin_user WHERE username = ? AND deleted_at IS NULL",
-    [env.defaultAdminUsername]
-  );
+  const admin = await get("SELECT id FROM admin_user WHERE deleted_at IS NULL LIMIT 1");
 
   if (!admin) {
+    env.assertConfigured("ADMIN_DEFAULT_USERNAME", env.defaultAdminUsername);
+    env.assertConfigured("ADMIN_DEFAULT_PASSWORD", env.defaultAdminPassword);
+
     const timestamp = now();
     await run(
       `
